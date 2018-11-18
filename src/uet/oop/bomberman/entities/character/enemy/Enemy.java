@@ -13,6 +13,9 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
 import java.awt.*;
+import uet.oop.bomberman.entities.LayeredEntity;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
 
 public abstract class Enemy extends Character {
 
@@ -75,11 +78,39 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public void calculateMove() {
-		// TODO: Tính toán hướng đi và di chuyển Enemy theo _ai và cập nhật giá trị cho _direction
-		// TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
-		// TODO: sử dụng move() để di chuyển
-		// TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
-	}
+	// TODO: Tính toán hướng đi và di chuyển Enemy theo _ai và cập nhật giá trị cho _direction
+	// TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
+	// TODO: sử dụng move() để di chuyển
+	// TODO: nhớ cập nhật lại giá trị c�? _moving khi thay đổi trạng thái di chuyển
+        int x = 0, y = 0;
+        if(_steps <= 0){
+            _direction = _ai.calculateDirection();
+            _steps = MAX_STEPS;
+        }
+        if (_direction == 0) {
+            y--;
+        }
+        if (_direction == 1) {
+            x++;
+        }
+        if (_direction == 2) {
+            y++;
+        }
+        if (_direction == 3) {
+            x--;
+        }
+        if ((x !=0 || y != 0) && canMove(x, y)){
+            
+            move(x * Game.getBomberSpeed(), y * Game.getBomberSpeed());
+            _steps = _steps - 1;
+            _moving = true;
+        }
+        else {
+        _moving = false;
+        _steps = 0;
+        }
+        
+    }
 	
 	@Override
 	public void move(double xa, double ya) {
@@ -90,8 +121,41 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public boolean canMove(double x, double y) {
-		// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
-		return false;
+	// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
+        if( _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this) instanceof LayeredEntity == true) {
+            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
+            if (le.getTopEntity() instanceof Brick)
+                return false;
+        }
+        if(_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof LayeredEntity == true) {
+            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
+            if (le.getTopEntity() instanceof Brick)
+            return false;
+        }
+        if(_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof LayeredEntity == true) {
+            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
+            if (le.getTopEntity() instanceof Brick)
+            return false;
+        }
+        if(_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof LayeredEntity == true) {
+            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
+            if (le.getTopEntity() instanceof Brick)
+            return false;
+        }
+        if (_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this) instanceof Wall == true) {
+            return false;
+        }
+        if (_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof Brick == true) {
+            return false;
+        }
+        if (_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof Brick == true) {
+            return false;
+        }
+        if (_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof Brick == true) {
+            return false;
+        }
+        
+	return true;
 	}
 
 	@Override
