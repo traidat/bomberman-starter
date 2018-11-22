@@ -101,7 +101,7 @@ public abstract class Enemy extends Character {
         }
         if ((x !=0 || y != 0) && canMove(x, y)){
             
-            move(x * Game.getBomberSpeed(), y * Game.getBomberSpeed());
+            move(x * _speed , y * _speed);
             _steps = _steps - 1;
             _moving = true;
         }
@@ -122,46 +122,39 @@ public abstract class Enemy extends Character {
 	@Override
 	public boolean canMove(double x, double y) {
 	// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
-        if( _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
-            if (le.getTopEntity() instanceof Brick)
+        Entity[] e = new Entity[4];
+        e[0] =  _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
+        e[1] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
+        e[2] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
+        e[3] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
+        for (int i = 0; i < 4; i++) {
+            if (e[i] instanceof Wall) {
                 return false;
-        }
-        if(_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
-            if (le.getTopEntity() instanceof Brick)
-            return false;
-        }
-        if(_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
-            if (le.getTopEntity() instanceof Brick)
-            return false;
-        }
-        if(_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
-            if (le.getTopEntity() instanceof Brick)
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this) instanceof Wall == true) {
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof Brick == true) {
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof Brick == true) {
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof Brick == true) {
-            return false;
+            }
+            else if (e[i] instanceof LayeredEntity) {
+                LayeredEntity le = (LayeredEntity) e[i];
+                if (le.getTopEntity() instanceof Brick)
+                    return false;
+            }
+            if (!this.collide(e[i])) {
+                return false;
+            }
         }
         
-	return true;
-	}
-
+            return true;
+        }
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: xử lý va chạm với Flame
 		// TODO: xử lý va chạm với Bomber
+                if (e instanceof Flame) {
+                    kill();
+                    return true;
+                }
+                else if (e instanceof Bomber) {
+                    ((Bomber) e).kill();
+                    return false;
+                }
 		return true;
 	}
 	

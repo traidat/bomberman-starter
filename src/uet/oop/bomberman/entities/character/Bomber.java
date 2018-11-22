@@ -11,6 +11,8 @@ import uet.oop.bomberman.input.Keyboard;
 import java.util.Iterator;
 import java.util.List;
 import uet.oop.bomberman.entities.LayeredEntity;
+import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.level.Coordinates;
@@ -139,40 +141,26 @@ public class Bomber extends Character {
     @Override
     public boolean canMove(double x, double y) {
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay khôn
-        if( _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
-            if (le.getTopEntity() instanceof Brick)
+        Entity[] e = new Entity[4];
+        e[0] =  _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
+        e[1] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
+        e[2] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
+        e[3] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
+        for (int i = 0; i < 4; i++) {
+            if (e[i] instanceof Wall) {
                 return false;
+            }
+            else if (e[i] instanceof LayeredEntity) {
+                LayeredEntity le = (LayeredEntity) e[i];
+                if (le.getTopEntity() instanceof Brick)
+                    return false;
+            }
+            if (!this.collide(e[i])) {
+                return false;
+            }
         }
-        if(_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
-            if (le.getTopEntity() instanceof Brick)
-            return false;
-        }
-        if(_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
-            if (le.getTopEntity() instanceof Brick)
-            return false;
-        }
-        if(_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof LayeredEntity == true) {
-            LayeredEntity le = (LayeredEntity) _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
-            if (le.getTopEntity() instanceof Brick)
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this) instanceof Wall == true) {
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this) instanceof Brick == true) {
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this) instanceof Brick == true) {
-            return false;
-        }
-        if (_board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof Wall == true || _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this) instanceof Brick == true) {
-            return false;
-        }
-        
         return true;
+
     }
 
     @Override
@@ -199,7 +187,14 @@ public class Bomber extends Character {
     public boolean collide(Entity e) {
         // TODO: xử lý va chạm với Flame
         // TODO: xử lý va chạm với Enemy
-
+        if (e instanceof Flame) {
+            kill();
+            return true;
+        }
+        if (e instanceof Enemy) {
+            kill();
+            return false;
+        }
         return true;
     }
 
