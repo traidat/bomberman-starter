@@ -81,7 +81,7 @@ public class FileLevelLoader extends LevelLoader {
 				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x, y, Sprite.grass), new Brick(x, y, Sprite.brick)));
 				break;
                             case 'x':
-				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new Portal(x, y, Sprite.powerup_flames), new Brick(x, y, Sprite.brick)));
+				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new Portal(x, y, Sprite.portal, _board), new Brick(x, y, Sprite.brick)));
 				break;
                             case 'p':
 				int xBomber = 1, yBomber = 1;
@@ -98,13 +98,13 @@ public class FileLevelLoader extends LevelLoader {
 				_board.addEntity(p, new Grass(x, y, Sprite.grass));
 				break;
                             case  'b':
-				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new BombItem(x, y, Sprite.powerup_flames), new Brick(x, y, Sprite.brick)));
+				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new BombItem(x, y, Sprite.powerup_bombs), new Brick(x, y, Sprite.brick)));
 				break;
                             case 'f':
 				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new FlameItem(x, y, Sprite.powerup_flames), new Brick(x, y, Sprite.brick)));
 				break;
                             case 's':
-				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new SpeedItem(x, y, Sprite.powerup_flames), new Brick(x, y, Sprite.brick)));
+				_board.addEntity(p, new LayeredEntity(x, y, new Grass(x ,y, Sprite.grass), new SpeedItem(x, y, Sprite.powerup_speed), new Brick(x, y, Sprite.brick)));
 				break;
                         default:
 				_board.addEntity(p, new Grass(x, y, Sprite.grass) );

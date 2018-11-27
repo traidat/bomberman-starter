@@ -2,7 +2,12 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.graphics.Screen;
+import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
+
 
 public class Flame extends Entity {
 
@@ -42,9 +47,28 @@ public class Flame extends Entity {
 		/**
 		 * biến last dùng để đánh dấu cho segment cuối cùng
 		 */
-		boolean last;
+		boolean last = false;
 
 		// TODO: tạo các segment dưới đây
+                int x = xOrigin, y = yOrigin;
+                for (int i = 0; i < _flameSegments.length; i++) {
+                    if (_direction == 0) {
+                        y--;
+                    }
+                    if (_direction == 1){
+                        x++;
+                    }
+                    if (_direction == 2) {
+                        y++;
+                    }	
+                    if (_direction == 3) {
+                        x--;
+                    }
+                    if (i == _flameSegments.length - 1) {
+                        last = true;
+                    }
+                    _flameSegments[i] = new FlameSegment(x, y, _direction, last);
+                }
 	}
 
 	/**
@@ -53,7 +77,37 @@ public class Flame extends Entity {
 	 */
 	private int calculatePermitedDistance() {
 		// TODO: thực hiện tính toán độ dài của Flame
-		return 1;
+                for (int i = 1; i <=  _radius; i++) {
+                    int x = xOrigin, y = yOrigin;
+                    if (_direction == 0) {
+                        y--;
+                    }
+                    if (_direction == 1){
+                        x++;
+                    }
+                    if (_direction == 2) {
+                        y++;
+                    }	
+                    if (_direction == 3) {
+                        x--;
+                    }
+                    Entity e = _board.getEntityAt(x,y);
+                    
+//                    if (e instanceof Wall) {
+//                        return i - 1;
+//                    }
+//                    else if (e instanceof LayeredEntity) {
+//                        LayeredEntity le = (LayeredEntity) e;
+//                        if (le.getTopEntity() instanceof Brick)
+//                            le.collide(this);
+//                            return i - 1;
+//                    }
+                    
+                    if(e.collide(this) == false)
+			return i - 1;
+                }
+                
+		return _radius;
 	}
 	
 	public FlameSegment flameSegmentAt(int x, int y) {
@@ -77,6 +131,10 @@ public class Flame extends Entity {
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: xử lý va chạm với Bomber, Enemy. Chú ý đối tượng này có vị trí chính là vị trí của Bomb đã nổ
+                if (e instanceof Character) {
+                    ((Character) e).kill();
+                   
+                }
 		return true;
 	}
 }

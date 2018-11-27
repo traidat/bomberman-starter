@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Screen;
 import java.util.LinkedList;
 
 /**
- * Chứa và quản lý nhiều Entity tại cùng một vị trí
+ * Chứa và quản lý nhi�?u Entity tại cùng một vị trí
  * Ví dụ: tại vị trí dấu Item, có 3 Entity [Grass, Item, Brick]
  */
 public class LayeredEntity extends Entity {
@@ -58,7 +58,7 @@ public class LayeredEntity extends Entity {
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: lấy entity trên cùng ra để xử lý va chạm
-		return false;
+                return getTopEntity().collide(e);
 	}
 
 }

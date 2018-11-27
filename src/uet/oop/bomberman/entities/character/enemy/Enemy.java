@@ -124,19 +124,19 @@ public abstract class Enemy extends Character {
 	// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         Entity[] e = new Entity[4];
         e[0] =  _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
-        e[1] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
-        e[2] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
-        e[3] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
+        e[1] = _board.getEntity(Coordinates.pixelToTile(x + _x + 15), Coordinates.pixelToTile(y + _y - 1), this);
+        e[2] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 15), this);
+        e[3] = _board.getEntity(Coordinates.pixelToTile(x + _x + 15), Coordinates.pixelToTile(y + _y - 15), this);
         for (int i = 0; i < 4; i++) {
-            if (e[i] instanceof Wall) {
-                return false;
-            }
-            else if (e[i] instanceof LayeredEntity) {
-                LayeredEntity le = (LayeredEntity) e[i];
-                if (le.getTopEntity() instanceof Brick)
-                    return false;
-            }
-            if (!this.collide(e[i])) {
+//            if (e[i] instanceof Wall) {
+//                return false;
+//            }
+//            else if (e[i] instanceof LayeredEntity) {
+//                LayeredEntity le = (LayeredEntity) e[i];
+//                if (le.getTopEntity() instanceof Brick)
+//                    return false;
+//            }
+            if (e[i].collide(this) == false) {
                 return false;
             }
         }
@@ -149,7 +149,7 @@ public abstract class Enemy extends Character {
 		// TODO: xử lý va chạm với Bomber
                 if (e instanceof Flame) {
                     kill();
-                    return true;
+                    return false;
                 }
                 else if (e instanceof Bomber) {
                     ((Bomber) e).kill();

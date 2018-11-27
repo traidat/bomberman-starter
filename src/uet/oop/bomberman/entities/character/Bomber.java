@@ -79,10 +79,19 @@ public class Bomber extends Character {
         // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng th�?i gian quá ngắn
         // TODO: nếu 3 đi�?u kiện trên th�?a mãn thì thực hiện đặt bom bằng placeBomb()
         // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs v�? 0
+        if(_input.space == true  && _timeBetweenPutBombs<0 && Game.getBombRate()>0){
+            int x = Coordinates.pixelToTile(_x + _sprite.getSize() / 2);
+            int y = Coordinates.pixelToTile(_y - _sprite.getSize() / 2)  ;
+            placeBomb(x,y);
+            Game.addBombRate(-1);
+            _timeBetweenPutBombs=30;
+        }
     }
 
     protected void placeBomb(int x, int y) {
         // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        Bomb b = new Bomb(x,y,_board);
+        _board.addBomb(b);
     }
 
     private void clearBombs() {
@@ -142,20 +151,20 @@ public class Bomber extends Character {
     public boolean canMove(double x, double y) {
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay khôn
         Entity[] e = new Entity[4];
-        e[0] =  _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
+        e[0] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
         e[1] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 1), this);
         e[2] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 13), this);
         e[3] = _board.getEntity(Coordinates.pixelToTile(x + _x + 11), Coordinates.pixelToTile(y + _y - 13), this);
         for (int i = 0; i < 4; i++) {
-            if (e[i] instanceof Wall) {
-                return false;
-            }
-            else if (e[i] instanceof LayeredEntity) {
-                LayeredEntity le = (LayeredEntity) e[i];
-                if (le.getTopEntity() instanceof Brick)
-                    return false;
-            }
-            if (!this.collide(e[i])) {
+//            if (e[i] instanceof Wall) {
+//                return false;
+//            }
+//            else if (e[i] instanceof LayeredEntity) {
+//                LayeredEntity le = (LayeredEntity) e[i];
+//                if (le.getTopEntity() instanceof Brick)
+//                    return false;
+//            }
+            if (e[i].collide(this) == false) {
                 return false;
             }
         }
@@ -178,8 +187,8 @@ public class Bomber extends Character {
             _direction = 3;
         }
         if (canMove(xa, ya) == true) {
-            _x = _x + xa;
-            _y = _y + ya;
+            _x = _x + xa ;
+            _y = _y + ya ;
         }
     }
 
@@ -189,7 +198,7 @@ public class Bomber extends Character {
         // TODO: xử lý va chạm với Enemy
         if (e instanceof Flame) {
             kill();
-            return true;
+            return false;
         }
         if (e instanceof Enemy) {
             kill();
