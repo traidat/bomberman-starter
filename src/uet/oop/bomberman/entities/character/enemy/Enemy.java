@@ -83,6 +83,7 @@ public abstract class Enemy extends Character {
 	// TODO: sử dụng move() để di chuyển
 	// TODO: nhớ cập nhật lại giá trị c�? _moving khi thay đổi trạng thái di chuyển
         int x = 0, y = 0;
+        canMove(x,y);
         if(_steps <= 0){
             _direction = _ai.calculateDirection();
             _steps = MAX_STEPS;
@@ -99,6 +100,7 @@ public abstract class Enemy extends Character {
         if (_direction == 3) {
             x--;
         }
+        
         if ((x !=0 || y != 0) && canMove(x, y)){
             
             move(x * _speed , y * _speed);

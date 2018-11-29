@@ -127,6 +127,7 @@ public class Bomber extends Character {
         // TODO: xử lý nhận tín hiệu đi�?u khiển hướng đi từ _input và g�?i move() để thực hiện di chuyển
         // TODO: nhớ cập nhật lại giá trị c�? _moving khi thay đổi trạng thái di chuyển
         int x = 0, y = 0;
+        canMove(x,y);
         if (_input.up) {
             y--;
         }

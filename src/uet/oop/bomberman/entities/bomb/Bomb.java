@@ -115,7 +115,7 @@ public class Bomb extends AnimatedEntitiy {
             return _allowedToPassThru;
         }
         if (e instanceof Flame) {
-            explode();
+            _timeToExplode = 0;
             return true;
         }
         return false;

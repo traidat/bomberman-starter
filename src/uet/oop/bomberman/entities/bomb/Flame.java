@@ -91,7 +91,7 @@ public class Flame extends Entity {
                     if (_direction == 3) {
                         x--;
                     }
-                    Entity e = _board.getEntityAt(x,y);
+                    Entity e = _board.getEntity(x, y, null);
                     
 //                    if (e instanceof Wall) {
 //                        return i - 1;
@@ -102,8 +102,7 @@ public class Flame extends Entity {
 //                            le.collide(this);
 //                            return i - 1;
 //                    }
-                    
-                    if(e.collide(this) == false)
+                    if (e.collide(this) == false)
 			return i - 1;
                 }
                 
