@@ -105,7 +105,7 @@ public abstract class Enemy extends Character {
         if ((x !=0 || y != 0) && canMove(x, y)){
             
             move(x * _speed , y * _speed);
-            _steps = _steps - 1;
+            _steps = _steps - 0.5;
             _moving = true;
         }
         else {
