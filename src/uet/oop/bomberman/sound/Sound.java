@@ -21,7 +21,7 @@ public class Sound extends Thread{
     public Clip music(String s){
         Clip cl = null;
         try {
-         File soundFile = new File("C:\\Users\\Bao\\Documents\\NetBeansProjects\\bomberman-starter\\src\\uet\\oop\\bomberman\\sound\\" + s + ".wav");
+         File soundFile = new File("C:\\Users\\VX15\\traidat\\bomberman-starter\\src\\uet\\oop\\bomberman\\sound\\" + s + ".wav");
         AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
          cl = AudioSystem.getClip();
          cl.open(audioIn);
