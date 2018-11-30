@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import javax.sound.sampled.Clip;
+import uet.oop.bomberman.sound.Sound;
 
 /**
  * Tạo vòng lặp cho game, lưu trữ một vài tham số cấu hình toàn cục,
@@ -110,7 +112,9 @@ public class Game extends Canvas {
 	
 	public void start() {
 		_running = true;
-		
+		Sound music = new Sound();
+                music.nen().loop(Clip.LOOP_CONTINUOUSLY);
+                
 		long  lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();
 		final double ns = 1000000000.0 / 60.0; //nanosecond, 60 frames per second

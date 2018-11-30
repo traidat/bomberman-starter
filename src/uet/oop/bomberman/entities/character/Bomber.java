@@ -16,6 +16,7 @@ import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.sound.Sound;
 
 public class Bomber extends Character {
 
@@ -110,6 +111,11 @@ public class Bomber extends Character {
 
     @Override
     public void kill() {
+        Sound music = new Sound();
+        if (music.nen().isRunning()){
+            music.nen().close();
+        }
+        music.die().start();
         if (!_alive) return;
         _alive = false;
     }

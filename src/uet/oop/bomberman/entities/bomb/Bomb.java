@@ -9,6 +9,7 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.sound.Sound;
 
 public class Bomb extends AnimatedEntitiy {
 
@@ -77,6 +78,8 @@ public class Bomb extends AnimatedEntitiy {
      */
 	protected void explode() {
 		_exploded = true;
+                Sound music = new Sound();
+                music.bom().start();
 		
 		// TODO: xử lý khi Character đứng tại vị trí Bomb
                 Character c = _board.getCharacter((int) _x, (int) _y);

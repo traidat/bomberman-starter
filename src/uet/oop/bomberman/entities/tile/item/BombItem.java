@@ -4,6 +4,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 public class BombItem extends Item {
 
@@ -14,10 +15,13 @@ public class BombItem extends Item {
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: xử lý Bomber ăn Item
-                if (e instanceof Bomber)
+                if (e instanceof Bomber){
+                    Sound music = new Sound();
+                    music.item().start();
                     Game.addBombRate(1);
                     this.remove();
-		return false;
+                }
+                    return false;
 	}
 	
 

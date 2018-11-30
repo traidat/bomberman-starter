@@ -16,6 +16,7 @@ import java.awt.*;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
+import uet.oop.bomberman.sound.Sound;
 
 public abstract class Enemy extends Character {
 
@@ -162,6 +163,8 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public void kill() {
+            Sound music = new Sound();
+                music.enemy_die().start();
 		if(!_alive) return;
 		_alive = false;
 		
