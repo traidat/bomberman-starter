@@ -53,4 +53,7 @@ public class Sound extends Thread{
     public Clip item(){
         return music("item");
     }
+    public Clip over(){
+        return music("GameOver");
+    }
 }
