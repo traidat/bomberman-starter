@@ -77,8 +77,8 @@ public class Flame extends Entity {
 	 */
 	private int calculatePermitedDistance() {
 		// TODO: thực hiện tính toán độ dài của Flame
+                int x = xOrigin, y = yOrigin;
                 for (int i = 1; i <=  _radius; i++) {
-                    int x = xOrigin, y = yOrigin;
                     if (_direction == 0) {
                         y--;
                     }
@@ -92,7 +92,6 @@ public class Flame extends Entity {
                         x--;
                     }
                     Entity e = _board.getEntity(x, y, null);
-                    
 //                    if (e instanceof Wall) {
 //                        return i - 1;
 //                    }
@@ -102,6 +101,7 @@ public class Flame extends Entity {
 //                            le.collide(this);
 //                            return i - 1;
 //                    }
+                    
                     if (e.collide(this) == false)
 			return i - 1;
                 }
