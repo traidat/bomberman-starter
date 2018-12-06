@@ -85,7 +85,7 @@ public abstract class Enemy extends Character {
 	// TODO: nhớ cập nhật lại giá trị c�? _moving khi thay đổi trạng thái di chuyển
         int x = 0, y = 0;
         canMove(x,y);
-        if(_steps <= 0){
+        if(_steps == 0){
             _direction = _ai.calculateDirection();
             _steps = MAX_STEPS;
         }
@@ -105,7 +105,7 @@ public abstract class Enemy extends Character {
         if ((x !=0 || y != 0) && canMove(x, y)){
             
             move(x * _speed , y * _speed);
-            _steps = _steps - 0.5;
+            _steps = _steps - 1;
             _moving = true;
         }
         else {
@@ -126,7 +126,7 @@ public abstract class Enemy extends Character {
 	public boolean canMove(double x, double y) {
 	// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         Entity[] e = new Entity[4];
-        e[0] =  _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
+        e[0] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 1), this);
         e[1] = _board.getEntity(Coordinates.pixelToTile(x + _x + 15), Coordinates.pixelToTile(y + _y - 1), this);
         e[2] = _board.getEntity(Coordinates.pixelToTile(x + _x), Coordinates.pixelToTile(y + _y - 15), this);
         e[3] = _board.getEntity(Coordinates.pixelToTile(x + _x + 15), Coordinates.pixelToTile(y + _y - 15), this);

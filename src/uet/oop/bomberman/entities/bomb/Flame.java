@@ -101,7 +101,9 @@ public class Flame extends Entity {
 //                            le.collide(this);
 //                            return i - 1;
 //                    }
-                    
+                    if (e instanceof Character) {
+                        continue;
+                    }
                     if (e.collide(this) == false)
 			return i - 1;
                 }
