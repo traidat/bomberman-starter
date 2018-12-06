@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import javax.sound.sampled.Clip;
 import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.sound.nhacnen;
 
 /**
  * Tạo vòng lặp cho game, lưu trữ một vài tham số cấu hình toàn cục,
@@ -112,8 +113,7 @@ public class Game extends Canvas {
 	
 	public void start() {
 		_running = true;
-		Sound music = new Sound();
-                music.nen().loop(Clip.LOOP_CONTINUOUSLY);
+		nhacnen.Nhac();
                 
 		long  lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();

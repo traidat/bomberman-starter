@@ -17,6 +17,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.sound.nhacnen;
 
 /**
  * Quản lý thao tác đi�?u khiển, load level, render các màn hình của game
@@ -87,6 +89,13 @@ public class Board implements IRender {
 	}
 	
 	public void loadLevel(int level) {
+            if(level > 5){
+                endGame();
+                nhacnen.stop_nen();
+                Sound music = new Sound();
+                music.victory().start();
+                
+            }
 		_time = Game.TIME;
 		_screenToShow = 2;
 		_game.resetScreenDelay();
@@ -114,6 +123,8 @@ public class Board implements IRender {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
 		_game.pause();
+                Sound music = new Sound();
+                music.over().start();
 	}
 	
 	public boolean detectNoEnemies() {
